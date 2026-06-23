@@ -526,4 +526,1182 @@ body.light .sheet { background: #FFF8EC; }
 .sheet-steps { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 11px; }
 .sheet-steps li { display: flex; gap: 11px; align-items: flex-start; font-size: 13.5px; line-height: 1.45; }
 .sheet-steps .num {
-  width: 24px; height: 24px; border-radi
+  width: 24px; height: 24px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  color: #fff; font-size: 11.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+}
+
+.start-date-note {
+  text-align: center; font-size: 11.5px; color: var(--gold); font-weight: 600;
+  background: var(--gold-wash); padding: 9px; border-radius: 10px; margin-bottom: 18px;
+  border: 1px solid rgba(212,168,83,0.2);
+}
+
+.btn-primary {
+  display: block; width: 100%;
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  color: #fff; font-weight: 700; font-size: 15px; padding: 14px; border-radius: 14px;
+  box-shadow: 0 4px 18px var(--emerald-glow);
+  transition: transform .12s ease;
+}
+.btn-primary:active { transform: scale(0.97); }
+.btn-secondary {
+  display: block; width: 100%;
+  background: var(--card); color: var(--ink2); font-weight: 600; font-size: 13.5px;
+  padding: 12px; border-radius: 12px; margin-top: 10px;
+  border: 1px solid var(--line);
+}
+.btn-danger {
+  display: block; width: 100%;
+  background: rgba(231,76,60,0.12); color: #E74C3C; font-weight: 600; font-size: 13.5px;
+  padding: 12px; border-radius: 12px; margin-top: 10px;
+  border: 1px solid rgba(231,76,60,0.2);
+}
+
+/* Подтверждение отмены */
+.confirm-sheet { text-align: center; }
+.confirm-sheet .confirm-icon { font-size: 40px; margin-bottom: 12px; }
+.confirm-sheet h3 { font-family: var(--display-font); font-size: 20px; color: var(--ink); margin: 0 0 8px; }
+.confirm-sheet p { color: var(--muted); font-size: 13.5px; line-height: 1.5; margin: 0 0 20px; }
+.confirm-btns { display: flex; gap: 10px; }
+.confirm-btns button { flex: 1; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; transition: transform .12s ease; }
+.confirm-btns button:active { transform: scale(0.96); }
+.btn-confirm-yes { background: linear-gradient(135deg, var(--emerald2), var(--emerald)); color: #fff; }
+.btn-confirm-no { background: var(--card); color: var(--ink2); border: 1px solid var(--line); }
+
+/* Напоминания */
+.reminder-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.reminder-label { font-size: 14px; color: var(--ink); font-weight: 500; }
+.reminder-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.time-input {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: 10px; padding: 9px 12px;
+  color: var(--ink); font-size: 15px; font-weight: 600;
+  width: 110px; text-align: center;
+}
+.time-input:focus { outline: 2px solid var(--emerald); }
+
+/* Инфо-установки */
+.install-steps ol { padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: var(--ink); }
+.install-steps h3 { font-family: var(--display-font); color: var(--emerald); margin-top: 0; }
+
+/* ============================================================
+   TOAST
+============================================================ */
+#toastContainer {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 80;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding-top: calc(10px + env(safe-area-inset-top));
+  pointer-events: none;
+}
+.toast {
+  background: var(--card-solid); color: var(--ink);
+  border: 1px solid var(--card-border);
+  font-size: 13px; font-weight: 600;
+  padding: 11px 20px; border-radius: 99px;
+  box-shadow: var(--shadow);
+  transform: translateY(-70px) scale(0.9); opacity: 0;
+  transition: all .35s cubic-bezier(.34,1.56,.64,1);
+  max-width: 90%; text-align: center;
+  backdrop-filter: var(--blur);
+}
+.toast.show { transform: translateY(0) scale(1); opacity: 1; }
+
+/* ============================================================
+   КОНФЕТТИ
+============================================================ */
+.confetti-piece {
+  position: fixed; width: 7px; height: 7px; border-radius: 2px;
+  pointer-events: none; z-index: 90;
+  animation: confetti-burst 0.9s ease-out forwards;
+}
+@keyframes confetti-burst {
+  to { transform: translate(var(--dx), var(--dy)) rotate(360deg); opacity: 0; }
+}
+
+/* ============================================================
+   ЗОЛОТАЯ ВСПЫШКА КНОПКИ
+============================================================ */
+@keyframes gold-flash {
+  0%   { box-shadow: 0 4px 14px var(--emerald-glow); }
+  40%  { box-shadow: 0 0 0 8px rgba(212,168,83,0.4), 0 4px 14px var(--emerald-glow); }
+  100% { box-shadow: 0 4px 14px var(--emerald-glow); }
+}
+.btn-read.flash { animation: gold-flash .5s ease; }
+
+/* ============================================================
+   ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ
+============================================================ */
+.theme-toggle-anim { transition: transform .4s cubic-bezier(.34,1.56,.64,1); }
+.theme-toggle-anim:active { transform: rotate(20deg) scale(0.85); }
+
+/* ============================================================
+   УВЕДОМЛЕНИЕ-ИНДИКАТОР (на экране)
+============================================================ */
+.notif-banner {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.notif-card {
+  background: var(--bg2); border: 1px solid var(--emerald);
+  border-radius: 20px; padding: 28px 24px; max-width: 340px; width: 100%;
+  text-align: center; box-shadow: 0 0 40px var(--emerald-glow);
+  animation: notif-pop .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes notif-pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.notif-card .notif-icon { font-size: 48px; margin-bottom: 14px; }
+.notif-card h3 { font-family: var(--display-font); font-size: 22px; color: var(--ink); margin: 0 0 8px; }
+.notif-card p { color: var(--muted); font-size: 14px; margin: 0 0 20px; line-height: 1.5; }
+
+/* ============================================================
+   МЕТКА СЕКЦИИ
+============================================================ */
+.section-label {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted); margin: 4px 2px 2px; font-weight: 600;
+}
+
+/* ============================================================
+   МЕДИА
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+</style>
+</head>
+
+<body class="dark">
+<div class="wrap">
+
+<!-- ===== Toast ===== -->
+<div id="toastContainer"></div>
+
+<!-- ===== Onboarding ===== -->
+<div id="onboarding" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-size:52px;text-align:center;margin-bottom:12px;">📖</div>
+    <h2>Фикх Аль-Муяссар</h2>
+    <p class="sheet-sub">Трекер прохождения уроков методом пятикратного чтения</p>
+    <ul class="sheet-steps">
+      <li><span class="num">1</span><span>Предварительное чтение урока с разбором незнакомых слов.</span></li>
+      <li><span class="num">2</span><span>Прослушивание урока с отслеживанием по книге.</span></li>
+      <li><span class="num">3</span><span>Чтение: 5×день 1 · 4×день 2 · 3×день 3 · 2×день 4 · 1×день 5 = 15 прочтений за 5 дней.</span></li>
+      <li><span class="num">4</span><span>80 уроков в книге. Короткие соседние уроки можно объединять.</span></li>
+    </ul>
+    <div class="start-date-note">📅 Дата старта: 20.06.2026</div>
+    <button class="btn-primary" id="btnStartOnboarding">Начать обучение</button>
+  </div>
+</div>
+
+<!-- ===== Confirm undo sheet ===== -->
+<div id="confirmSheet" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="confirm-sheet">
+      <div class="confirm-icon">↩</div>
+      <h3>Отменить прочтение?</h3>
+      <p>Счётчик прочтений урока уменьшится на 1.<br>Это действие нельзя будет отменить повторно.</p>
+      <div class="confirm-btns">
+        <button class="btn-confirm-no" id="btnConfirmNo">Нет</button>
+        <button class="btn-confirm-yes" id="btnConfirmYes">Да, отменить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== New day confirm ===== -->
+<div id="newDaySheet" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="confirm-sheet">
+      <div class="confirm-icon">🌅</div>
+      <h3>Начать новый день?</h3>
+      <p>Счётчики сегодняшних прочтений обнулятся. Прогресс по дням урока сохранится.</p>
+      <div class="confirm-btns">
+        <button class="btn-confirm-no" id="btnNewDayNo">Нет</button>
+        <button class="btn-confirm-yes" id="btnNewDayYes">Да, новый день</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Reminder sheet ===== -->
+<div id="reminderSheet" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-size:44px;text-align:center;margin-bottom:12px;">🔔</div>
+    <h2>Напоминание</h2>
+    <p class="sheet-sub">Выберите время — и мы напомним вам о чтении</p>
+    <div class="reminder-row">
+      <div>
+        <div class="reminder-label">Время уведомления</div>
+        <div class="reminder-sub">Ежедневно, пока не завершите программу</div>
+      </div>
+      <input type="time" class="time-input" id="reminderTimeInput" value="08:00">
+    </div>
+    <button class="btn-primary" id="btnSetReminder">🔔 Установить напоминание</button>
+    <button class="btn-secondary" id="btnClearReminder" class="hidden">❌ Отключить напоминание</button>
+    <div id="reminderStatus" style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px;"></div>
+  </div>
+</div>
+
+<!-- ===== Install modal ===== -->
+<div id="installModal" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="install-steps" id="installModalBody"></div>
+    <button class="btn-secondary" id="btnCloseInstall">Закрыть</button>
+  </div>
+</div>
+
+<!-- ===== In-app notification banner ===== -->
+<div id="notifBanner" class="notif-banner hidden">
+  <div class="notif-card">
+    <div class="notif-icon">📖</div>
+    <h3>Время чтения!</h3>
+    <p id="notifText">Пора читать следующий урок</p>
+    <button class="btn-primary" id="btnDismissNotif">Хорошо, приступаю!</button>
+  </div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="topbar" id="topbar">
+  <div class="topbar-row">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+          <rect x="20" y="20" width="60" height="60" rx="4" stroke="#D4A853" stroke-width="7"/>
+          <rect x="20" y="20" width="60" height="60" rx="4" stroke="#F0C060" stroke-width="7" transform="rotate(45 50 50)"/>
+          <circle cx="50" cy="50" r="12" fill="#D4A853"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Фикх Аль-Муяссар</h1>
+        <p>Трекер чтения уроков</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn theme-toggle-anim" id="btnTheme" title="Переключить тему">🌙</button>
+      <button class="icon-btn" id="btnInstall" title="Установить приложение">📲</button>
+      <button class="icon-btn" id="btnNewDay" title="Новый день">🔄</button>
+    </div>
+  </div>
+  <div class="today-line" id="todayLine"></div>
+</header>
+
+<!-- ===== Progress header ===== -->
+<div class="progress-header glass" style="margin:14px 16px 0;">
+  <div class="progress-header-row" id="progressHeader">
+    <!-- filled by JS -->
+  </div>
+  <div class="streak-bar" id="streakBar">
+    <div class="streak-label">
+      <span id="streakLabelLeft">Прогресс программы</span>
+      <span id="streakLabelRight">0%</span>
+    </div>
+    <div class="streak-track"><div class="streak-fill" id="streakFill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- ===== Main content ===== -->
+<main id="mainContent">
+  <section id="view-all" class="view"></section>
+  <section id="view-today" class="view hidden"></section>
+  <section id="view-done" class="view hidden"></section>
+  <section id="view-stats" class="view hidden"></section>
+</main>
+
+<!-- ===== Bottom nav ===== -->
+<nav class="bottom-nav" id="bottomNav">
+  <button data-view="all" class="active"><span class="nav-ic">📚</span><span>Все</span></button>
+  <button data-view="today"><span class="nav-ic">☀️</span><span>Сегодня</span></button>
+  <button data-view="done"><span class="nav-ic">🏆</span><span>Готово</span></button>
+  <button data-view="stats"><span class="nav-ic">📊</span><span>Статистика</span></button>
+</nav>
+
+<!-- ===== FABs ===== -->
+<button class="fab-scroll hidden-fab" id="fabScroll" title="К активному уроку">↓</button>
+<button class="fab-reminder" id="fabReminder" title="Напоминание">🔔</button>
+
+<!-- SVG gradients -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4A853"/>
+      <stop offset="100%" stop-color="#2ECC71"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+</div><!-- .wrap -->
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   КОНСТАНТЫ
+============================================================ */
+var LESSON_COUNT = 80;
+var START_DATE = '2026-06-20';
+var STORAGE_KEY = 'famTrackerState_v2';
+var PREFS_KEY = 'famTrackerPrefs_v1';
+var REQUIRED = {1:5, 2:4, 3:3, 4:2, 5:1};
+var CUM_BEFORE = {1:0, 2:5, 3:9, 4:12, 5:14};
+var TOTAL_STEPS = 17;
+
+var deferredPrompt = null;
+var currentView = 'all';
+var pendingUndoRoot = null;
+var debounceTimers = {};
+var doneGroupExpanded = false;
+
+/* ============================================================
+   УТИЛИТЫ ДАТ
+============================================================ */
+function pad(n){ return n < 10 ? '0' + n : '' + n; }
+function todayStr(){
+  var d = new Date();
+  return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+}
+function addDays(dateStr, days){
+  var parts = dateStr.split('-').map(Number);
+  var dt = new Date(parts[0], parts[1]-1, parts[2]);
+  dt.setDate(dt.getDate() + days);
+  return dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
+}
+function formatRu(dateStr){
+  if(!dateStr) return '';
+  var p = dateStr.split('-');
+  return p[2] + '.' + p[1] + '.' + p[0];
+}
+function formatTodayHeader(){
+  try{
+    var d = new Date();
+    var s = new Intl.DateTimeFormat('ru-RU',{weekday:'long',day:'numeric',month:'long'}).format(d);
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }catch(e){ return formatRu(todayStr()); }
+}
+function diffDays(a, b){
+  var da = new Date(a), db = new Date(b);
+  return Math.round((db - da) / 86400000);
+}
+
+/* ============================================================
+   СОСТОЯНИЕ
+============================================================ */
+function defaultState(){
+  var lessons = {};
+  for(var i = 1; i <= LESSON_COUNT; i++){
+    lessons[i] = {
+      merged:false, stage:'prep', prepRead:false, prepListen:false,
+      day:1, todayCount:0, completed:false, completedDate:null
+    };
+  }
+  return {
+    startDate: START_DATE,
+    lastCheckedDate: todayStr(),
+    onboarded: false,
+    lessons: lessons
+  };
+}
+
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    var parsed = JSON.parse(raw);
+    if(!parsed || !parsed.lessons) return defaultState();
+    return parsed;
+  }catch(e){ return defaultState(); }
+}
+
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+var state = loadState();
+
+/* ============================================================
+   НАСТРОЙКИ (тема, напоминание)
+============================================================ */
+function loadPrefs(){
+  try{
+    var raw = localStorage.getItem(PREFS_KEY);
+    return raw ? JSON.parse(raw) : {theme:'dark', reminderTime:null};
+  }catch(e){ return {theme:'dark', reminderTime:null}; }
+}
+function savePrefs(){
+  try{ localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); }catch(e){}
+}
+var prefs = loadPrefs();
+
+/* ============================================================
+   ТЕМА
+============================================================ */
+function applyTheme(){
+  var isDark = prefs.theme !== 'light';
+  document.body.className = isDark ? 'dark' : 'light';
+  document.getElementById('btnTheme').textContent = isDark ? '🌙' : '☀️';
+  document.getElementById('themeColorMeta').content = isDark ? '#0A1A14' : '#1B5E20';
+}
+
+function toggleTheme(){
+  prefs.theme = (prefs.theme === 'dark') ? 'light' : 'dark';
+  savePrefs();
+  applyTheme();
+}
+
+/* ============================================================
+   ЛОГИКА УРОКОВ
+============================================================ */
+function getGroupRoot(n){
+  var r = n;
+  while(r > 1 && state.lessons[r-1] && state.lessons[r-1].merged){ r--; }
+  return r;
+}
+function getGroupLast(root){
+  var t = root;
+  while(t < LESSON_COUNT && state.lessons[t] && state.lessons[t].merged){ t++; }
+  return t;
+}
+function isAbsorbed(n){ return getGroupRoot(n) !== n; }
+
+function visibleRoots(){
+  var arr = [];
+  for(var i = 1; i <= LESSON_COUNT; i++){
+    if(!isAbsorbed(i)) arr.push(i);
+  }
+  return arr;
+}
+
+function buildSeqMap(){
+  var map = {};
+  var idx = 0;
+  visibleRoots().forEach(function(r){ map[r] = idx; idx++; });
+  return map;
+}
+
+/* ============================================================
+   ЕЖЕДНЕВНЫЙ СБРОС
+============================================================ */
+function dailyReset(force){
+  var t = todayStr();
+  if(force || state.lastCheckedDate !== t){
+    Object.keys(state.lessons).forEach(function(k){
+      var l = state.lessons[k];
+      if(!l.completed){ l.todayCount = 0; }
+    });
+    state.lastCheckedDate = t;
+    saveState();
+  }
+}
+
+/* ============================================================
+   DEBOUNCE-ЗАЩИТА
+============================================================ */
+function debounce(key, fn, delay){
+  if(debounceTimers[key]) return;
+  fn();
+  debounceTimers[key] = setTimeout(function(){ delete debounceTimers[key]; }, delay || 300);
+}
+
+/* ============================================================
+   ДЕЙСТВИЯ
+============================================================ */
+function togglePrep(root, which){
+  var l = state.lessons[root];
+  if(!l || l.completed) return;
+  l[which] = !l[which];
+  l.stage = (l.prepRead && l.prepListen) ? 'reading' : 'prep';
+  saveState();
+  render();
+}
+
+function markRead(root, evt){
+  debounce('read-'+root, function(){
+    var l = state.lessons[root];
+    if(!l || l.completed || l.stage !== 'reading') return;
+    var required = REQUIRED[l.day];
+    l.todayCount++;
+    var leveledUp = false, finished = false, oldDay = l.day;
+    if(l.todayCount >= required){
+      if(l.day < 5){
+        l.day++; l.todayCount = 0; leveledUp = true;
+      } else {
+        l.completed = true; l.completedDate = todayStr(); l.stage = 'done'; finished = true;
+      }
+    }
+    saveState();
+    render();
+    if(evt){ spawnConfetti(evt.clientX, evt.clientY); }
+    vibrate(15);
+    var btnEl = document.querySelector('[data-action="read"][data-root="'+root+'"]');
+    if(btnEl){ btnEl.classList.add('flash'); setTimeout(function(){ btnEl.classList.remove('flash'); }, 500); }
+    if(finished){
+      showToast('🎉 Урок ' + groupTitle(root) + ' полностью завершён! Машаа Аллах!');
+    } else if(leveledUp){
+      showToast('📈 Урок ' + groupTitle(root) + ': день ' + oldDay + ' пройден → день ' + l.day);
+    }
+  }, 300);
+}
+
+function undoRead(root){
+  pendingUndoRoot = root;
+  document.getElementById('confirmSheet').classList.remove('hidden');
+}
+
+function confirmUndo(){
+  document.getElementById('confirmSheet').classList.add('hidden');
+  if(pendingUndoRoot === null) return;
+  var root = pendingUndoRoot;
+  pendingUndoRoot = null;
+  var l = state.lessons[root];
+  if(!l || l.stage === 'prep') return;
+
+  if(l.completed){
+    l.completed = false; l.completedDate = null; l.stage = 'reading';
+    l.day = 5; l.todayCount = 0;
+  } else if(l.todayCount > 0){
+    l.todayCount--;
+  } else if(l.day > 1){
+    l.day--;
+    l.todayCount = REQUIRED[l.day] - 1;
+  }
+  saveState();
+  render();
+  showToast('↩ Последнее прочтение отменено');
+}
+
+function toggleMerge(tail){
+  var l = state.lessons[tail];
+  if(!l) return;
+  l.merged = !l.merged;
+  saveState();
+  render();
+}
+
+function forceNewDay(){
+  dailyReset(true);
+  render();
+  showToast('☀️ Новый день начат');
+}
+
+/* ============================================================
+   РЕНДЕРИНГ
+============================================================ */
+function groupTitle(root){
+  var last = getGroupLast(root);
+  return last > root ? (root + '–' + last) : ('' + root);
+}
+
+function buildDots(l){
+  var html = '<div class="day-dots">';
+  for(var d = 1; d <= 5; d++){
+    var cls = d < l.day ? 'done' : (d === l.day ? 'current' : '');
+    html += '<span class="day-dot ' + cls + '"></span>';
+  }
+  return html + '</div>';
+}
+
+function buildLessonCard(root, seqMap, compact){
+  var l = state.lessons[root];
+  var last = getGroupLast(root);
+  var isGroup = last > root;
+  var numLabel = isGroup ? ('Уроки ' + root + '–' + last) : ('Урок ' + root);
+  var title = isGroup ? ('Уроки ' + root + '–' + last) : ('Урок ' + root);
+  var sched = addDays(state.startDate, seqMap[root]);
+  var isActive = sched <= todayStr();
+
+  if(l.completed){
+    return '<div class="glass lesson-card is-done" data-root="' + root + '">' +
+      '<div class="lesson-card-inner done-card-row">' +
+        '<div class="done-card-title"><span class="done-check">✦</span> ' + title + '</div>' +
+        '<div class="badge badge-done">' + formatRu(l.completedDate) + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  var doneSteps;
+  if(l.stage === 'prep'){
+    doneSteps = (l.prepRead ? 1 : 0) + (l.prepListen ? 1 : 0);
+  } else {
+    doneSteps = 2 + CUM_BEFORE[l.day] + l.todayCount;
+  }
+  var pct = Math.round(doneSteps / TOTAL_STEPS * 100);
+
+  var req = REQUIRED[l.day];
+  var dayComplete = (l.stage === 'reading' && l.todayCount >= req);
+  var cardClass = 'glass lesson-card' + (isActive ? ' is-active' : '') + (dayComplete ? ' day-complete' : '');
+
+  var bodyHtml;
+  if(l.stage === 'prep'){
+    bodyHtml =
+      '<div class="prep-chips">' +
+        '<button class="chip ' + (l.prepRead ? 'chip-done' : '') + '" data-action="toggle-prep" data-root="' + root + '" data-which="prepRead">📖 Предв. чтение' + (l.prepRead ? ' ✓' : '') + '</button>' +
+        '<button class="chip ' + (l.prepListen ? 'chip-done' : '') + '" data-action="toggle-prep" data-root="' + root + '" data-which="prepListen">🎧 Прослушивание' + (l.prepListen ? ' ✓' : '') + '</button>' +
+      '</div>' +
+      '<p class="hint-text">Прочитайте урок самостоятельно, разберите незнакомые слова, затем прослушайте.</p>';
+  } else {
+    bodyHtml =
+      buildDots(l) +
+      '<div class="read-row">' +
+        '<div class="read-info"><span class="day-label">День ' + l.day + '/5</span> · <span class="count-label">' + l.todayCount + '/' + req + '</span></div>' +
+        '<div class="read-actions">' +
+          '<button class="btn-undo" data-action="undo" data-root="' + root + '" title="Отменить прочтение">↩</button>' +
+          '<button class="btn-read" data-action="read" data-root="' + root + '">✅ Прочитал</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  var mergeHtml = '';
+  if(last < LESSON_COUNT && !l.completed){
+    mergeHtml = '<label class="merge-row"><input type="checkbox" data-action="toggle-merge" data-tail="' + last + '" ' + (state.lessons[last].merged ? 'checked' : '') + '> Объединить с уроком №' + (last+1) + '</label>';
+  }
+
+  return '<div class="' + cardClass + '" data-root="' + root + '" id="lesson-card-' + root + '">' +
+    '<div class="swipe-hint-right">✅ Прочитал</div>' +
+    '<div class="swipe-hint-left">↩ Отмена</div>' +
+    '<div class="lesson-card-inner">' +
+      '<div class="card-head">' +
+        '<div class="card-title-wrap">' +
+          '<div class="card-lesson-num">' + (isActive ? '<span class="active-dot" style="display:inline-block;"></span>' : '') + numLabel + '</div>' +
+          '<div class="card-title">' + title + '</div>' +
+        '</div>' +
+        '<div class="badge ' + (isActive ? 'badge-active' : 'badge-upcoming') + '">' + formatRu(sched) + '</div>' +
+      '</div>' +
+      '<div class="prog-bar"><div class="prog-fill" style="width:' + pct + '%"></div></div>' +
+      bodyHtml +
+      mergeHtml +
+    '</div>' +
+  '</div>';
+}
+
+function buildStatsView(roots, seqMap){
+  var total = roots.length;
+  var completed = roots.filter(function(r){ return state.lessons[r].completed; }).length;
+  var inProgress = roots.filter(function(r){ return !state.lessons[r].completed && state.lessons[r].stage === 'reading'; }).length;
+  var pct = total ? Math.round(completed / total * 100) : 0;
+
+  var today = todayStr();
+  var daysElapsed = Math.max(1, diffDays(state.startDate, today) + 1);
+
+  var totalReadings = 0;
+  roots.forEach(function(r){
+    var l = state.lessons[r];
+    if(l.completed){
+      totalReadings += TOTAL_STEPS - 2;
+    } else if(l.stage === 'reading'){
+      totalReadings += CUM_BEFORE[l.day] + l.todayCount;
+    }
+  });
+  var avgPerDay = daysElapsed > 0 ? (totalReadings / daysElapsed).toFixed(1) : '0';
+
+  var remaining = total - completed;
+  var estimatedDays = remaining > 0 && parseFloat(avgPerDay) > 0 ? Math.ceil(remaining * 5 / Math.max(parseFloat(avgPerDay), 0.1)) : 0;
+  var estimatedFinish = estimatedDays > 0 ? formatRu(addDays(today, estimatedDays)) : '—';
+
+  return '<div class="stats-grid">' +
+    '<div class="glass stat-card">' +
+      '<div class="stat-icon">✅</div>' +
+      '<div class="stat-value">' + completed + '<span>/' + total + '</span></div>' +
+      '<div class="stat-label">Уроков завершено (' + pct + '%)</div>' +
+    '</div>' +
+    '<div class="glass stat-card">' +
+      '<div class="stat-icon">📖</div>' +
+      '<div class="stat-value">' + inProgress + '</div>' +
+      '<div class="stat-label">В процессе чтения</div>' +
+    '</div>' +
+    '<div class="glass stat-card">' +
+      '<div class="stat-icon">📊</div>' +
+      '<div class="stat-value">' + avgPerDay + '</div>' +
+      '<div class="stat-label">Прочтений в день (среднее)</div>' +
+    '</div>' +
+    '<div class="glass stat-card">' +
+      '<div class="stat-icon">📅</div>' +
+      '<div class="stat-value" style="font-size:16px;">' + (estimatedFinish !== '—' ? estimatedFinish : '—') + '</div>' +
+      '<div class="stat-label">Прогнозируемое завершение</div>' +
+    '</div>' +
+  '</div>' +
+  '<div class="glass stat-card-wide" style="margin-top:10px;">' +
+    '<div class="stat-wide-row">' +
+      '<div class="stat-wide-icon">🗓</div>' +
+      '<div class="stat-wide-info">' +
+        '<div class="stat-wide-label">Дней с начала программы</div>' +
+        '<div class="stat-wide-value">' + daysElapsed + ' ' + pluralDays(daysElapsed) + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="streak-bar" style="margin-top:14px;">' +
+      '<div class="streak-label"><span>Прогресс книги</span><span>' + pct + '%</span></div>' +
+      '<div class="streak-track"><div class="streak-fill" style="width:' + pct + '%"></div></div>' +
+    '</div>' +
+  '</div>';
+}
+
+function pluralDays(n){
+  if(n % 100 >= 11 && n % 100 <= 14) return 'дней';
+  var r = n % 10;
+  if(r === 1) return 'день';
+  if(r >= 2 && r <= 4) return 'дня';
+  return 'дней';
+}
+
+function emptyState(icon, msg){
+  return '<div class="empty-state"><div class="empty-icon">' + icon + '</div><p>' + msg + '</p></div>';
+}
+
+function render(){
+  dailyReset(false);
+  var seqMap = buildSeqMap();
+  var roots = visibleRoots();
+
+  var total = roots.length;
+  var completed = roots.filter(function(r){ return state.lessons[r].completed; }).length;
+  var pct = total ? Math.round(completed / total * 100) : 0;
+
+  var CIRC = 2 * Math.PI * 24;
+  document.getElementById('progressHeader').innerHTML =
+    '<div class="prog-ring-wrap">' +
+      '<svg class="prog-ring-svg" viewBox="0 0 58 58">' +
+        '<circle class="prog-ring-bg" cx="29" cy="29" r="24"/>' +
+        '<circle class="prog-ring-fill" cx="29" cy="29" r="24" stroke-dasharray="' + CIRC + '" stroke-dashoffset="' + (CIRC * (1 - pct/100)) + '"/>' +
+      '</svg>' +
+      '<div class="prog-ring-label">' + pct + '%</div>' +
+    '</div>' +
+    '<div class="prog-info">' +
+      '<div class="prog-info-title">Прогресс книги</div>' +
+      '<div class="prog-info-main"><b>' + completed + '</b> из ' + total + ' уроков</div>' +
+      '<div class="prog-info-sub">Старт: ' + formatRu(state.startDate) + '</div>' +
+    '</div>';
+
+  document.getElementById('streakFill').style.width = pct + '%';
+  document.getElementById('streakLabelRight').textContent = pct + '%';
+  document.getElementById('todayLine').innerHTML = '☀️ ' + formatTodayHeader();
+
+  var notDone = roots.filter(function(r){ return !state.lessons[r].completed; });
+  var done = roots.filter(function(r){ return state.lessons[r].completed; });
+
+  // — Вкладка «Все уроки» —
+  var allHtml = notDone.map(function(r){ return buildLessonCard(r, seqMap, false); }).join('');
+  if(done.length){
+    var doneBody = done.map(function(r){ return buildLessonCard(r, seqMap, true); }).join('');
+    allHtml += '<div class="glass" style="overflow:hidden;">' +
+      '<div class="done-group-header" id="doneGroupHeader">' +
+        '<div class="done-group-title">✅ Завершённые (' + done.length + ')</div>' +
+        '<div class="done-group-chevron' + (doneGroupExpanded ? ' open' : '') + '" id="doneGroupChevron">▼</div>' +
+      '</div>' +
+      '<div class="done-group-body ' + (doneGroupExpanded ? '' : 'hidden') + '" id="doneGroupBody">' + doneBody + '</div>' +
+    '</div>';
+  }
+  document.getElementById('view-all').innerHTML = allHtml || emptyState('📚', 'Уроков пока нет. Всё только начинается!');
+
+  // — Вкладка «Сегодня» —
+  var todayRoots = notDone.filter(function(r){ return addDays(state.startDate, seqMap[r]) <= todayStr(); });
+  document.getElementById('view-today').innerHTML = todayRoots.length
+    ? todayRoots.map(function(r){ return buildLessonCard(r, seqMap, false); }).join('')
+    : emptyState('🌿', 'На сегодня активных уроков нет.<br>Загляните во вкладку «Все» 📚');
+
+  // — Вкладка «Готово» —
+  document.getElementById('view-done').innerHTML = done.length
+    ? done.map(function(r){ return buildLessonCard(r, seqMap, true); }).join('')
+    : emptyState('🏆', 'Пока нет завершённых уроков.<br>Путь начинается с одного шага 🌱');
+
+  // — Вкладка «Статистика» —
+  document.getElementById('view-stats').innerHTML = buildStatsView(roots, seqMap);
+
+  // Привязка done-group
+  var dgh = document.getElementById('doneGroupHeader');
+  if(dgh){
+    dgh.addEventListener('click', function(){
+      doneGroupExpanded = !doneGroupExpanded;
+      var body = document.getElementById('doneGroupBody');
+      var chev = document.getElementById('doneGroupChevron');
+      if(body){ body.classList.toggle('hidden', !doneGroupExpanded); }
+      if(chev){ chev.classList.toggle('open', doneGroupExpanded); }
+    });
+  }
+
+  // FAB scroll: показываем, если есть активные уроки не в видимой зоне
+  var firstActive = document.querySelector('.is-active');
+  var fabEl = document.getElementById('fabScroll');
+  if(firstActive && currentView === 'all'){
+    fabEl.classList.remove('hidden-fab');
+  } else {
+    fabEl.classList.add('hidden-fab');
+  }
+
+  // Свайпы
+  setupSwipes();
+}
+
+/* ============================================================
+   СВАЙПЫ
+============================================================ */
+function setupSwipes(){
+  var cards = document.querySelectorAll('.lesson-card:not(.is-done)');
+  cards.forEach(function(card){
+    var startX = 0, startY = 0, isDragging = false;
+    var inner = card.querySelector('.lesson-card-inner');
+    var hintR = card.querySelector('.swipe-hint-right');
+    var hintL = card.querySelector('.swipe-hint-left');
+    if(!inner) return;
+
+    card.addEventListener('touchstart', function(e){
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isDragging = false;
+    }, {passive:true});
+
+    card.addEventListener('touchmove', function(e){
+      var dx = e.touches[0].clientX - startX;
+      var dy = e.touches[0].clientY - startY;
+      if(!isDragging && Math.abs(dy) > Math.abs(dx)) return;
+      isDragging = true;
+      var clamped = Math.max(-90, Math.min(90, dx));
+      inner.style.transform = 'translateX(' + (clamped * 0.4) + 'px)';
+      if(hintR) hintR.style.opacity = dx > 20 ? Math.min(1, (dx-20)/60) : 0;
+      if(hintL) hintL.style.opacity = dx < -20 ? Math.min(1, (-dx-20)/60) : 0;
+    }, {passive:true});
+
+    card.addEventListener('touchend', function(e){
+      var dx = e.changedTouches[0].clientX - startX;
+      inner.style.transform = '';
+      if(hintR) hintR.style.opacity = 0;
+      if(hintL) hintL.style.opacity = 0;
+      if(!isDragging) return;
+      var root = parseInt(card.dataset.root, 10);
+      if(dx > 60){
+        markRead(root, null);
+        vibrate(15);
+      } else if(dx < -60){
+        undoRead(root);
+      }
+    }, {passive:true});
+  });
+}
+
+/* ============================================================
+   FAB — ПРОКРУТКА К АКТИВНОМУ
+============================================================ */
+document.getElementById('fabScroll').addEventListener('click', function(){
+  var first = document.querySelector('.is-active');
+  if(first){
+    first.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+});
+
+/* ============================================================
+   НАВИГАЦИЯ
+============================================================ */
+function switchView(view){
+  currentView = view;
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.add('hidden'); });
+  document.getElementById('view-' + view).classList.remove('hidden');
+  document.querySelectorAll('.bottom-nav button').forEach(function(b){
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  // Скрыть FAB если не на «Все»
+  var fabEl = document.getElementById('fabScroll');
+  if(view !== 'all'){ fabEl.classList.add('hidden-fab'); }
+  else {
+    var firstActive = document.querySelector('.is-active');
+    if(firstActive){ fabEl.classList.remove('hidden-fab'); }
+  }
+}
+
+/* ============================================================
+   СОБЫТИЯ — ДЕЛЕГИРОВАНИЕ
+============================================================ */
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-action]');
+  if(!el) return;
+  var action = el.dataset.action;
+  if(action === 'read'){ markRead(parseInt(el.dataset.root,10), e); }
+  else if(action === 'undo'){ undoRead(parseInt(el.dataset.root,10)); }
+  else if(action === 'toggle-prep'){ togglePrep(parseInt(el.dataset.root,10), el.dataset.which); }
+});
+
+document.addEventListener('change', function(e){
+  var el = e.target.closest('[data-action="toggle-merge"]');
+  if(el){ toggleMerge(parseInt(el.dataset.tail,10)); }
+});
+
+document.getElementById('bottomNav').addEventListener('click', function(e){
+  var btn = e.target.closest('[data-view]');
+  if(btn){ switchView(btn.dataset.view); }
+});
+
+// Кнопки хедера
+document.getElementById('btnTheme').addEventListener('click', toggleTheme);
+document.getElementById('btnInstall').addEventListener('click', handleInstallClick);
+document.getElementById('btnNewDay').addEventListener('click', function(){ document.getElementById('newDaySheet').classList.remove('hidden'); });
+
+// Онбординг
+document.getElementById('btnStartOnboarding').addEventListener('click', function(){
+  state.onboarded = true; saveState();
+  document.getElementById('onboarding').classList.add('hidden');
+});
+
+// Confirm undo
+document.getElementById('btnConfirmYes').addEventListener('click', confirmUndo);
+document.getElementById('btnConfirmNo').addEventListener('click', function(){ document.getElementById('confirmSheet').classList.add('hidden'); pendingUndoRoot = null; });
+
+// New day
+document.getElementById('btnNewDayYes').addEventListener('click', function(){ document.getElementById('newDaySheet').classList.add('hidden'); forceNewDay(); });
+document.getElementById('btnNewDayNo').addEventListener('click', function(){ document.getElementById('newDaySheet').classList.add('hidden'); });
+
+// Close install
+document.getElementById('btnCloseInstall').addEventListener('click', function(){ document.getElementById('installModal').classList.add('hidden'); });
+
+// FAB reminder
+document.getElementById('fabReminder').addEventListener('click', openReminderSheet);
+document.getElementById('btnSetReminder').addEventListener('click', setReminder);
+document.getElementById('btnClearReminder').addEventListener('click', clearReminder);
+document.getElementById('btnDismissNotif').addEventListener('click', function(){ document.getElementById('notifBanner').classList.add('hidden'); });
+
+/* ============================================================
+   НАПОМИНАНИЯ
+============================================================ */
+function openReminderSheet(){
+  var sheet = document.getElementById('reminderSheet');
+  if(prefs.reminderTime){
+    document.getElementById('reminderTimeInput').value = prefs.reminderTime;
+    document.getElementById('btnClearReminder').classList.remove('hidden');
+    document.getElementById('reminderStatus').textContent = '🔔 Напоминание установлено на ' + prefs.reminderTime;
+  } else {
+    document.getElementById('btnClearReminder').classList.add('hidden');
+    document.getElementById('reminderStatus').textContent = '';
+  }
+  sheet.classList.remove('hidden');
+}
+
+function setReminder(){
+  var t = document.getElementById('reminderTimeInput').value;
+  if(!t){ showToast('Выберите время'); return; }
+  prefs.reminderTime = t;
+  savePrefs();
+  scheduleReminderCheck();
+  document.getElementById('reminderStatus').textContent = '✅ Напоминание установлено на ' + t;
+  document.getElementById('btnClearReminder').classList.remove('hidden');
+  document.getElementById('fabReminder').classList.add('notif-set');
+  showToast('🔔 Напоминание на ' + t + ' установлено');
+  if('Notification' in window && Notification.permission === 'default'){
+    Notification.requestPermission();
+  }
+  // Закрыть через 1s
+  setTimeout(function(){ document.getElementById('reminderSheet').classList.add('hidden'); }, 800);
+}
+
+function clearReminder(){
+  prefs.reminderTime = null; savePrefs();
+  document.getElementById('reminderStatus').textContent = 'Напоминание отключено';
+  document.getElementById('btnClearReminder').classList.add('hidden');
+  document.getElementById('fabReminder').classList.remove('notif-set');
+  showToast('🔕 Напоминание отключено');
+  setTimeout(function(){ document.getElementById('reminderSheet').classList.add('hidden'); }, 800);
+}
+
+function getNextLesson(){
+  var seqMap = buildSeqMap();
+  var roots = visibleRoots();
+  for(var i = 0; i < roots.length; i++){
+    var r = roots[i];
+    var l = state.lessons[r];
+    if(!l.completed && addDays(state.startDate, seqMap[r]) <= todayStr()){
+      return r;
+    }
+  }
+  return null;
+}
+
+function triggerReminder(){
+  var lesson = getNextLesson();
+  var text = lesson ? 'Время чтения: урок №' + lesson : 'Время чтения по Фикх Аль-Муяссар';
+  // Попробовать системное уведомление
+  if('Notification' in window && Notification.permission === 'granted'){
+    new Notification('📖 Фикх Аль-Муяссар', {body: text, icon: ''});
+  }
+  // Показать in-app баннер
+  document.getElementById('notifText').textContent = text;
+  document.getElementById('notifBanner').classList.remove('hidden');
+}
+
+var reminderIntervalId = null;
+function scheduleReminderCheck(){
+  if(reminderIntervalId){ clearInterval(reminderIntervalId); }
+  if(!prefs.reminderTime) return;
+  reminderIntervalId = setInterval(function(){
+    if(!prefs.reminderTime) return;
+    var now = new Date();
+    var hhmm = pad(now.getHours()) + ':' + pad(now.getMinutes());
+    if(hhmm === prefs.reminderTime){ triggerReminder(); }
+  }, 30000);
+  // Проверить сразу
+  var now = new Date();
+  var hhmm = pad(now.getHours()) + ':' + pad(now.getMinutes());
+  if(hhmm === prefs.reminderTime){ triggerReminder(); }
+}
+
+/* ============================================================
+   АВТОСБРОС В 00:00
+============================================================ */
+function scheduleMidnightReset(){
+  var now = new Date();
+  var msUntilMidnight = (new Date(now.getFullYear(), now.getMonth(), now.getDate()+1)) - now;
+  setTimeout(function(){
+    dailyReset(true);
+    render();
+    showToast('🌙 Новый день начался — счётчики обновлены');
+    scheduleMidnightReset();
+  }, msUntilMidnight + 1000);
+}
+
+/* ============================================================
+   ЭФФЕКТЫ
+============================================================ */
+function showToast(msg){
+  var c = document.getElementById('toastContainer');
+  var t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  c.appendChild(t);
+  requestAnimationFrame(function(){ t.classList.add('show'); });
+  setTimeout(function(){
+    t.classList.remove('show');
+    setTimeout(function(){ t.remove(); }, 350);
+  }, 2800);
+}
+
+function spawnConfetti(x, y){
+  if(typeof x !== 'number'){ x = window.innerWidth / 2; y = window.innerHeight / 2; }
+  var colors = ['#D4A853','#F0C060','#2ECC71','#27AE60','#F39C12'];
+  for(var i = 0; i < 16; i++){
+    var el = document.createElement('div');
+    el.className = 'confetti-piece';
+    var angle = Math.random() * Math.PI * 2;
+    var dist = 55 + Math.random() * 70;
+    el.style.setProperty('--dx', Math.cos(angle)*dist + 'px');
+    el.style.setProperty('--dy', Math.sin(angle)*dist + 'px');
+    el.style.left = x + 'px'; el.style.top = y + 'px';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    document.body.appendChild(el);
+    (function(n){ setTimeout(function(){ n.remove(); }, 950); })(el);
+  }
+}
+
+function vibrate(ms){
+  if(navigator.vibrate){ navigator.vibrate(ms || 15); }
+}
+
+/* ============================================================
+   PWA / УСТАНОВКА
+============================================================ */
+var STAR_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#0A1A14"/><rect x="22" y="22" width="56" height="56" rx="4" fill="none" stroke="#D4A853" stroke-width="6"/><rect x="22" y="22" width="56" height="56" rx="4" fill="none" stroke="#F0C060" stroke-width="6" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13" fill="#D4A853"/></svg>';
+
+function utf8ToB64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+function setupManifestAndIcons(){
+  var iconDataUri = 'data:image/svg+xml;base64,' + utf8ToB64(STAR_SVG);
+  document.getElementById('faviconLink').href = iconDataUri;
+  document.getElementById('appleIconLink').href = iconDataUri;
+  var manifest = {
+    name: 'Фикх Аль-Муяссар — Трекер',
+    short_name: 'Фикх Трекер',
+    description: 'Трекер прохождения уроков по книге «Фикх Аль-Муяссар»',
+    start_url: '.', scope: '.', display: 'standalone',
+    background_color: '#0A1A14', theme_color: '#0A1A14', orientation: 'portrait',
+    icons: [{src:iconDataUri, sizes:'any', type:'image/svg+xml', purpose:'any'}]
+  };
+  var mUri = 'data:application/manifest+json;base64,' + utf8ToB64(JSON.stringify(manifest));
+  document.getElementById('manifestLink').href = mUri;
+}
+
+function registerServiceWorker(){
+  if('serviceWorker' in navigator){
+    var swCode = [
+      "const CACHE='fam-v2';",
+      "self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['.']))));",
+      "self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{var rc=res.clone();caches.open(CACHE).then(c=>c.put(e.request,rc));return res;}))));",
+    ].join('');
+    var blob = new Blob([swCode], {type:'application/javascript'});
+    var swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(function(){});
+  }
+}
+
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault(); deferredPrompt = e;
+});
+
+function openInstallModal(){
+  var ua = navigator.userAgent;
+  var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  var isAndroid = /Android/.test(ua);
+  var html;
+  if(isIOS){
+    html = '<div class="install-steps"><h3>Установка на iPhone / iPad</h3><ol><li>Нажмите кнопку «Поделиться» (□↑) внизу Safari</li><li>Выберите «На экран Домой»</li><li>Нажмите «Добавить»</li></ol></div>';
+  } else if(isAndroid){
+    html = '<div class="install-steps"><h3>Установка на Android</h3><ol><li>Откройте меню браузера (⋮) в правом верхнем углу</li><li>Выберите «Добавить на главный экран» или «Установить приложение»</li><li>Подтвердите установку</li></ol></div>';
+  } else {
+    html = '<div class="install-steps"><h3>Установка на компьютер</h3><ol><li>Найдите значок установки (⊕) в адресной строке браузера</li><li>Или меню браузера → «Установить приложение»</li></ol></div>';
+  }
+  document.getElementById('installModalBody').innerHTML = html;
+  document.getElementById('installModal').classList.remove('hidden');
+}
+
+function handleInstallClick(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.finally(function(){ deferredPrompt = null; });
+  } else {
+    openInstallModal();
+  }
+}
+
+/* ============================================================
+   АВТО-ПРОКРУТКА К АКТИВНОМУ УРОКУ
+============================================================ */
+function scrollToFirstActive(){
+  setTimeout(function(){
+    var first = document.querySelector('.is-active');
+    if(first){ first.scrollIntoView({behavior:'smooth', block:'center'}); }
+  }, 300);
+}
+
+/* ============================================================
+   СТАРТ
+============================================================ */
+function init(){
+  applyTheme();
+  setupManifestAndIcons();
+  registerServiceWorker();
+  dailyReset(false);
+  render();
+  switchView('all');
+  if(!state.onboarded){
+    document.getElementById('onboarding').classList.remove('hidden');
+  } else {
+    scrollToFirstActive();
+  }
+  scheduleMidnightReset();
+  scheduleReminderCheck();
+  if(prefs.reminderTime){
+    document.getElementById('fabReminder').classList.add('notif-set');
+  }
+}
+
+init();
+})();
+</script>
+</body>
+</html>
