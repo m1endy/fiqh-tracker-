@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Фикх Аль-Муяссар — Трекер чтения</title>
 <meta name="description" content="Трекер прохождения уроков по книге «Фикх Аль-Муяссар»">
-<meta name="theme-color" content="#1B5E20">
+<meta name="theme-color" id="themeColorMeta" content="#0A1A14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Фикх Трекер">
@@ -13,473 +13,517 @@
 <link rel="manifest" id="manifestLink" href="">
 <link rel="icon" id="faviconLink" href="">
 <link rel="apple-touch-icon" id="appleIconLink" href="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    --bg:#FFF8EC;
-    --ink:#2B2B26;
-    --muted:#8A8578;
-    --emerald:#1B5E20;
-    --emerald-soft:#2E7D32;
-    --emerald-wash:#E7F0E4;
-    --gold:#B8860B;
-    --gold-soft:#D4A017;
-    --gold-wash:#FBF1DC;
-    --card:#FFFFFF;
-    --line:rgba(27,94,32,0.12);
-    --shadow:0 2px 14px rgba(27,94,32,0.08);
-    --radius:18px;
-    --display-font: Georgia, 'Iowan Old Style', 'Noto Serif', 'Times New Roman', serif;
-    --body-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background-color:var(--bg);
-    background-image:
-      radial-gradient(circle at 22px 22px, rgba(27,94,32,0.05) 1.6px, transparent 1.6px),
-      radial-gradient(circle at 44px 44px, rgba(184,134,11,0.05) 1.6px, transparent 1.6px);
-    background-size:44px 44px;
-    color:var(--ink);
-    font-family:var(--body-font);
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;
-    padding-bottom:calc(76px + env(safe-area-inset-bottom));
-  }
-  .wrap{max-width:480px;margin:0 auto;position:relative;}
-  button{font-family:inherit;border:none;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-  input{font-family:inherit;}
-  .hidden{display:none !important;}
+/* ============================================================
+   CSS ПЕРЕМЕННЫЕ — ТЁМНАЯ ТЕМА (по умолчанию)
+============================================================ */
+:root {
+  --bg: #0A1A14;
+  --bg2: #0D2019;
+  --card: rgba(255,255,255,0.06);
+  --card-border: rgba(255,255,255,0.10);
+  --card-solid: #112218;
+  --nav-bg: rgba(10,26,20,0.92);
+  --topbar-bg: rgba(10,26,20,0.94);
+  --ink: #F5F0E8;
+  --ink2: #C8C0B0;
+  --muted: #7A8A80;
+  --gold: #D4A853;
+  --gold2: #F0C060;
+  --gold-wash: rgba(212,168,83,0.12);
+  --emerald: #2ECC71;
+  --emerald2: #27AE60;
+  --emerald-wash: rgba(46,204,113,0.12);
+  --emerald-glow: rgba(46,204,113,0.30);
+  --line: rgba(255,255,255,0.07);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.3);
+  --radius: 18px;
+  --blur: blur(16px);
+  --display-font: 'Amiri', Georgia, serif;
+  --body-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --transition: .28s cubic-bezier(.4,0,.2,1);
+}
 
-  /* ---------- Star mark (signature element) ---------- */
-  .star-mark{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;}
-  .star-mark path{fill:currentColor;}
+/* ============================================================
+   СВЕТЛАЯ ТЕМА
+============================================================ */
+body.light {
+  --bg: #FFF8EC;
+  --bg2: #F5EDD8;
+  --card: #FFFFFF;
+  --card-border: rgba(27,94,32,0.10);
+  --card-solid: #FFFFFF;
+  --nav-bg: rgba(255,248,236,0.96);
+  --topbar-bg: rgba(255,248,236,0.96);
+  --ink: #1A2A1E;
+  --ink2: #3D5A44;
+  --muted: #7A8578;
+  --gold: #B8860B;
+  --gold2: #C9980F;
+  --gold-wash: rgba(184,134,11,0.10);
+  --emerald: #1B5E20;
+  --emerald2: #2E7D32;
+  --emerald-wash: rgba(27,94,32,0.10);
+  --emerald-glow: rgba(27,94,32,0.20);
+  --line: rgba(27,94,32,0.10);
+  --shadow: 0 4px 20px rgba(27,94,32,0.10);
+  --shadow-sm: 0 2px 8px rgba(27,94,32,0.08);
+}
 
-  /* ---------- Header ---------- */
-  .topbar{
-    position:sticky;top:0;z-index:20;
-    background:rgba(255,248,236,0.92);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
-    padding:14px 16px 10px;
-  }
-  .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-  .brand{display:flex;align-items:center;gap:10px;}
-  .brand-mark{width:34px;height:34px;border-radius:9px;background:var(--emerald);display:flex;align-items:center;justify-content:center;color:var(--gold-soft);font-size:18px;flex-shrink:0;}
-  .brand-text h1{font-family:var(--display-font);font-size:17px;line-height:1.15;margin:0;font-weight:700;color:var(--emerald);letter-spacing:0.2px;}
-  .brand-text p{margin:1px 0 0;font-size:11.5px;color:var(--muted);}
-  .icon-btn{
-    width:36px;height:36px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    background:var(--card);box-shadow:var(--shadow);
-    font-size:16px;flex-shrink:0;color:var(--emerald);
-    transition:transform .15s ease;
-  }
-  .icon-btn:active{transform:scale(0.9);}
-  .topbar-icons{display:flex;gap:8px;}
-  .today-line{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:var(--gold);font-weight:600;}
-  .divider-row{letter-spacing:6px;color:var(--gold);opacity:0.55;font-size:10px;}
+/* ============================================================
+   БАЗОВЫЕ СТИЛИ
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
 
-  /* ---------- Stats bar ---------- */
-  .stats-bar{
-    display:flex;align-items:center;gap:14px;
-    margin:14px 16px;padding:14px 16px;
-    background:var(--card);border-radius:var(--radius);
-    box-shadow:var(--shadow);
-  }
-  .stats-ring{
-    --pct:0;
-    width:54px;height:54px;border-radius:50%;flex-shrink:0;
-    background:conic-gradient(var(--emerald) calc(var(--pct)*1%), #ECE6D6 0);
-    display:flex;align-items:center;justify-content:center;
-  }
-  .stats-ring-inner{
-    width:40px;height:40px;border-radius:50%;background:var(--card);
-    display:flex;align-items:center;justify-content:center;
-    font-size:11.5px;font-weight:700;color:var(--emerald);
-  }
-  .stats-text{font-size:13px;color:var(--ink);}
-  .stats-text b{color:var(--emerald);}
-  .stats-text .sub{display:block;color:var(--muted);font-size:11.5px;margin-top:2px;}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body-font);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  transition: background var(--transition), color var(--transition);
+}
 
-  /* ---------- Views ---------- */
-  main{padding:0 16px 8px;}
-  .view{display:flex;flex-direction:column;gap:12px;}
-  .section-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:6px 2px 0;}
+body.dark {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(46,204,113,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 90% 80%, rgba(212,168,83,0.05) 0%, transparent 50%);
+}
 
-  /* ---------- Cards ---------- */
-  .card{
-    background:var(--card);border-radius:var(--radius);
-    box-shadow:var(--shadow);padding:14px 16px 16px;
-  }
-  .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-  .card-title{font-family:var(--display-font);font-weight:700;font-size:16px;color:var(--ink);}
-  .badge{
-    font-size:10.5px;font-weight:600;white-space:nowrap;
-    padding:4px 9px;border-radius:99px;
-  }
-  .badge-active{background:var(--emerald-wash);color:var(--emerald);}
-  .badge-upcoming{background:var(--gold-wash);color:var(--gold);}
-  .progress-bar{height:6px;border-radius:99px;background:#EFE9DA;margin:11px 0 12px;overflow:hidden;}
-  .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--emerald),var(--emerald-soft));transition:width .35s ease;}
+.wrap { max-width: 480px; margin: 0 auto; position: relative; }
 
-  .prep-row{display:flex;gap:8px;flex-wrap:wrap;}
-  .chip{
-    flex:1;min-width:130px;
-    padding:10px 10px;border-radius:12px;
-    background:var(--gold-wash);color:var(--gold);
-    font-size:12.5px;font-weight:600;text-align:center;
-    border:1.5px solid transparent;
-    transition:transform .12s ease, background .2s ease, color .2s ease;
-  }
-  .chip:active{transform:scale(0.96);}
-  .chip-done{background:var(--emerald-wash);color:var(--emerald);border-color:var(--emerald);}
-  .hint{font-size:11.5px;color:var(--muted);margin:10px 2px 0;line-height:1.45;}
+button { font-family: inherit; border: none; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+input { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+.hidden { display: none !important; }
 
-  .dots{display:flex;gap:6px;margin-bottom:10px;}
-  .dot{width:9px;height:9px;border-radius:50%;background:#E6E0CF;}
-  .dot-done{background:var(--emerald);}
-  .dot-current{background:var(--gold);box-shadow:0 0 0 3px var(--gold-wash);}
+/* ============================================================
+   GLASSMORPHISM КАРТОЧКИ
+============================================================ */
+.glass {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
 
-  .read-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-  .read-count{font-size:13px;color:var(--ink);}
-  .read-count b{color:var(--emerald);font-size:14px;}
-  .btn-read{
-    background:var(--emerald);color:#fff;font-weight:700;font-size:13.5px;
-    padding:11px 16px;border-radius:13px;
-    box-shadow:0 4px 10px rgba(27,94,32,0.28);
-    transition:transform .12s ease;
-    flex-shrink:0;
-  }
-  .btn-read:active{transform:scale(0.94);}
+body.light .glass {
+  background: var(--card);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: var(--shadow);
+}
 
-  .merge-toggle{
-    display:flex;align-items:center;gap:7px;
-    margin-top:13px;padding-top:11px;border-top:1px dashed var(--line);
-    font-size:11.5px;color:var(--muted);
-  }
-  .merge-toggle input{accent-color:var(--emerald);width:15px;height:15px;}
+/* ============================================================
+   ХЕДЕР
+============================================================ */
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  background: var(--topbar-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 16px 10px;
+  transition: background var(--transition);
+}
 
-  .card-done{padding:11px 16px;display:flex;align-items:center;justify-content:space-between;opacity:0.82;}
-  .card-done .card-title{font-size:13.5px;display:flex;align-items:center;gap:6px;}
-  .card-done .star-mark{color:var(--gold);width:14px;height:14px;}
-  .badge-done{background:#EFE9DA;color:var(--muted);}
+.topbar-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 
-  .empty-state{
-    text-align:center;padding:38px 18px;color:var(--muted);
-    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-    font-size:13.5px;line-height:1.6;
-  }
-  .empty-state .star-mark{color:var(--gold);width:26px;height:26px;margin-bottom:8px;}
+.brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
 
-  /* ---------- Bottom nav ---------- */
-  .bottom-nav{
-    position:fixed;left:0;right:0;bottom:0;z-index:30;
-    display:flex;
-    background:rgba(255,248,236,0.96);backdrop-filter:blur(8px);
-    border-top:1px solid var(--line);
-    padding:8px 10px calc(8px + env(safe-area-inset-bottom));
-  }
-  .bottom-nav button{
-    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
-    font-size:10.5px;color:var(--muted);font-weight:600;padding:4px 0;
-    transition:color .2s ease;
-  }
-  .bottom-nav button .nav-ic{font-size:19px;}
-  .bottom-nav button.active{color:var(--emerald);}
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px var(--emerald-glow);
+}
 
-  /* ---------- Overlays ---------- */
-  .overlay{
-    position:fixed;inset:0;z-index:50;
-    background:rgba(27,28,20,0.55);
-    display:flex;align-items:flex-end;justify-content:center;
-    padding:0;
-  }
-  .overlay-card{
-    background:var(--bg);width:100%;max-width:480px;
-    border-radius:24px 24px 0 0;
-    padding:28px 22px calc(26px + env(safe-area-inset-bottom));
-    box-shadow:0 -8px 30px rgba(0,0,0,0.25);
-    max-height:88vh;overflow-y:auto;
-  }
-  .onboard-star{width:64px;height:64px;color:var(--gold);margin:0 auto 14px;display:block;}
-  .overlay-card h2{font-family:var(--display-font);color:var(--emerald);font-size:21px;text-align:center;margin:0 0 4px;}
-  .overlay-card .sub{text-align:center;color:var(--muted);font-size:12.5px;margin-bottom:18px;}
-  .steps{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:11px;}
-  .steps li{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;line-height:1.45;}
-  .steps .num{
-    width:24px;height:24px;border-radius:50%;background:var(--emerald);color:#fff;
-    font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
-  }
-  .start-date-note{
-    text-align:center;font-size:11.5px;color:var(--gold);font-weight:600;
-    background:var(--gold-wash);padding:8px;border-radius:10px;margin-bottom:18px;
-  }
-  .btn-primary{
-    display:block;width:100%;background:var(--emerald);color:#fff;
-    font-weight:700;font-size:15px;padding:14px;border-radius:14px;
-    box-shadow:0 4px 14px rgba(27,94,32,0.3);
-    transition:transform .12s ease;
-  }
-  .btn-primary:active{transform:scale(0.97);}
-  .btn-secondary{
-    display:block;width:100%;background:var(--card);color:var(--emerald);
-    font-weight:600;font-size:13.5px;padding:11px;border-radius:12px;
-    margin-top:10px;border:1.5px solid var(--line);
-  }
-  .modal-body ol{padding-left:18px;font-size:13.5px;line-height:1.7;color:var(--ink);}
-  .modal-body h3{font-family:var(--display-font);color:var(--emerald);margin-top:0;}
+.brand-text h1 {
+  font-family: var(--display-font);
+  font-size: 16px; line-height: 1.15; margin: 0;
+  font-weight: 700; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.brand-text p { margin: 1px 0 0; font-size: 11px; color: var(--muted); }
 
-  /* ---------- Toast ---------- */
-  #toastContainer{position:fixed;top:10px;left:0;right:0;z-index:60;display:flex;justify-content:center;pointer-events:none;}
-  .toast{
-    background:var(--emerald);color:#fff;font-size:13px;font-weight:600;
-    padding:11px 18px;border-radius:99px;box-shadow:0 6px 18px rgba(0,0,0,0.2);
-    transform:translateY(-60px);opacity:0;transition:all .3s ease;
-    max-width:88%;text-align:center;
-  }
-  .toast.show{transform:translateY(0);opacity:1;}
+.topbar-actions { display: flex; gap: 6px; flex-shrink: 0; }
 
-  /* ---------- Confetti ---------- */
-  .confetti-piece{position:fixed;width:7px;height:7px;border-radius:2px;pointer-events:none;z-index:70;animation:confetti-burst .9s ease-out forwards;}
-  @keyframes confetti-burst{to{transform:translate(var(--dx),var(--dy)) rotate(360deg);opacity:0;}}
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--card); border: 1px solid var(--card-border);
+  font-size: 15px; flex-shrink: 0;
+  transition: transform .15s ease, background .2s ease;
+  backdrop-filter: var(--blur);
+}
+.icon-btn:active { transform: scale(0.88); }
 
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important;transition-duration:0.001ms !important;}
-  }
-</style>
-</head>
-<body>
-<div class="wrap">
+.today-line {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 10px; font-size: 12px; color: var(--gold);
+  font-weight: 600; font-family: var(--body-font);
+}
 
-  <!-- ===== Onboarding overlay ===== -->
-  <div id="onboarding" class="overlay hidden">
-    <div class="overlay-card">
-      <svg class="onboard-star" viewBox="0 0 100 100"><g transform="translate(50,50)"><rect x="-30" y="-30" width="60" height="60" fill="none" stroke="currentColor" stroke-width="5" transform="rotate(0)"/><rect x="-30" y="-30" width="60" height="60" fill="none" stroke="currentColor" stroke-width="5" transform="rotate(45)"/></g></svg>
-      <h2>Фикх Аль-Муяссар</h2>
-      <p class="sub">Трекер прохождения уроков методом пятикратного чтения</p>
-      <ul class="steps">
-        <li><span class="num">1</span><span>Предварительное чтение урока с разбором незнакомых слов.</span></li>
-        <li><span class="num">2</span><span>Прослушивание урока с отслеживанием по книге.</span></li>
-        <li><span class="num">3</span><span>Чтение урока: 5 раз в день 1, 4 — в день 2, 3 — в день 3, 2 — в день 4, 1 — в день 5. Всего 15 прочтений за 5 дней.</span></li>
-        <li><span class="num">4</span><span>Всего в книге 80 уроков. Короткие соседние уроки можно объединять.</span></li>
-      </ul>
-      <div class="start-date-note">📅 Дата старта программы: 20.06.2026</div>
-      <button class="btn-primary" data-action="start-onboarding">Начать обучение</button>
-    </div>
-  </div>
+/* ============================================================
+   СТАТУС-БАР ПРОГРЕССА
+============================================================ */
+.progress-header {
+  margin: 14px 16px 0;
+  padding: 16px 18px;
+}
+.progress-header-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
-  <!-- ===== Install instructions modal ===== -->
-  <div id="installModal" class="overlay hidden">
-    <div class="overlay-card">
-      <div class="modal-body" id="installModalBody"></div>
-      <button class="btn-secondary" data-action="close-modal">Закрыть</button>
-    </div>
-  </div>
+.prog-ring-wrap {
+  position: relative; width: 58px; height: 58px; flex-shrink: 0;
+}
+.prog-ring-svg { width: 58px; height: 58px; transform: rotate(-90deg); }
+.prog-ring-bg { fill: none; stroke: var(--line); stroke-width: 5; }
+.prog-ring-fill {
+  fill: none; stroke: url(#ringGrad); stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s cubic-bezier(.4,0,.2,1);
+}
+.prog-ring-label {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--emerald);
+}
 
-  <div id="toastContainer"></div>
+.prog-info { flex: 1; }
+.prog-info-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+.prog-info-main { font-family: var(--display-font); font-size: 20px; color: var(--ink); line-height: 1.2; margin: 2px 0; }
+.prog-info-main b { color: var(--emerald); }
+.prog-info-sub { font-size: 11.5px; color: var(--muted); }
 
-  <!-- ===== Header ===== -->
-  <header class="topbar">
-    <div class="topbar-row">
-      <div class="brand">
-        <div class="brand-mark">
-          <svg class="star-mark" viewBox="0 0 100 100" style="width:20px;height:20px;"><g transform="translate(50,50)"><rect x="-28" y="-28" width="56" height="56" fill="none" stroke="currentColor" stroke-width="9" transform="rotate(0)"/><rect x="-28" y="-28" width="56" height="56" fill="none" stroke="currentColor" stroke-width="9" transform="rotate(45)"/></g></svg>
-        </div>
-        <div class="brand-text">
-          <h1>Фикх Аль-Муяссар</h1>
-          <p>Трекер чтения уроков</p>
-        </div>
-      </div>
-      <div class="topbar-icons">
-        <button class="icon-btn" data-action="open-install" title="Установить приложение">📲</button>
-        <button class="icon-btn" data-action="new-day" title="Новый день">🔄</button>
-      </div>
-    </div>
-    <div class="today-line" id="todayLine"></div>
-  </header>
+/* ============================================================
+   НАВИГАЦИЯ — НИЖНЯЯ ПАНЕЛЬ
+============================================================ */
+.bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  display: flex;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--line);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  transition: background var(--transition);
+}
 
-  <!-- ===== Stats ===== -->
-  <div class="stats-bar" id="statsBar"></div>
+.bottom-nav button {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 10.5px; color: var(--muted); font-weight: 600; padding: 4px 2px;
+  transition: color .2s ease;
+  position: relative;
+}
+.bottom-nav button .nav-ic { font-size: 20px; line-height: 1; }
+.bottom-nav button.active { color: var(--emerald); }
+.bottom-nav button.active::after {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 2px; background: var(--emerald); border-radius: 99px;
+}
 
-  <!-- ===== Main content ===== -->
-  <main id="mainContent">
-    <section id="view-all" class="view"></section>
-    <section id="view-today" class="view hidden"></section>
-    <section id="view-done" class="view hidden"></section>
-  </main>
+/* ============================================================
+   ОСНОВНОЙ КОНТЕНТ
+============================================================ */
+main { padding: 12px 16px 8px; }
+.view { display: flex; flex-direction: column; gap: 12px; }
 
-  <!-- ===== Bottom nav ===== -->
-  <nav class="bottom-nav">
-    <button data-view="all" class="active"><span class="nav-ic">📚</span><span>Все уроки</span></button>
-    <button data-view="today"><span class="nav-ic">☀️</span><span>Сегодня</span></button>
-    <button data-view="done"><span class="nav-ic">🏆</span><span>Завершено</span></button>
-  </nav>
+/* ============================================================
+   КАРТОЧКИ УРОКОВ
+============================================================ */
+.lesson-card {
+  position: relative; overflow: hidden;
+  padding: 0;
+  transition: transform .2s ease, box-shadow .2s ease;
+  touch-action: pan-y;
+  user-select: none;
+}
+.lesson-card-inner { padding: 15px 16px 16px; }
 
-</div>
+/* Активный урок — светящаяся точка слева */
+.lesson-card.is-active::before {
+  content: '';
+  position: absolute; left: -1px; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 40%; min-height: 24px;
+  background: linear-gradient(180deg, var(--emerald), var(--emerald2));
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 10px var(--emerald-glow);
+}
 
-<script>
-(function(){
-  "use strict";
+/* Завершённый урок */
+.lesson-card.is-done {
+  opacity: 0.65;
+  padding: 10px 16px;
+}
+.lesson-card.is-done .lesson-card-inner { padding: 4px 0; }
 
-  /* ============================================================
-     КОНСТАНТЫ
-  ============================================================ */
-  var LESSON_COUNT = 80;
-  var START_DATE = '2026-06-20';
-  var STORAGE_KEY = 'famTrackerState_v1';
-  var REQUIRED = {1:5, 2:4, 3:3, 4:2, 5:1};
-  var CUM_BEFORE = {1:0, 2:5, 3:9, 4:12, 5:14};
-  var TOTAL_STEPS = 17; // 2 подготовительных шага + 15 прочтений
+/* Выполнена дневная норма — свечение */
+.lesson-card.day-complete {
+  box-shadow: 0 0 0 1.5px var(--emerald), var(--shadow), 0 0 20px var(--emerald-glow);
+}
 
-  var STAR_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#1B5E20"/><g transform="translate(50,50)"><rect x="-28" y="-28" width="56" height="56" fill="none" stroke="#B8860B" stroke-width="6" transform="rotate(0)"/><rect x="-28" y="-28" width="56" height="56" fill="none" stroke="#B8860B" stroke-width="6" transform="rotate(45)"/></g><circle cx="50" cy="50" r="13" fill="#FFF8EC"/></svg>';
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
 
-  var deferredPrompt = null;
-  var currentView = 'all';
+.card-title-wrap { flex: 1; min-width: 0; }
+.card-lesson-num {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); margin-bottom: 2px;
+}
+.card-title {
+  font-family: var(--display-font); font-weight: 700; font-size: 17px;
+  color: var(--ink); line-height: 1.2;
+}
 
-  /* ============================================================
-     УТИЛИТЫ ДАТ
-  ============================================================ */
-  function pad(n){ return n < 10 ? '0' + n : '' + n; }
-  function todayStr(){
-    var d = new Date();
-    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-  }
-  function addDays(dateStr, days){
-    var parts = dateStr.split('-').map(Number);
-    var dt = new Date(parts[0], parts[1] - 1, parts[2]);
-    dt.setDate(dt.getDate() + days);
-    return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate());
-  }
-  function formatRu(dateStr){
-    var p = dateStr.split('-');
-    return p[2] + '.' + p[1] + '.' + p[0];
-  }
-  function formatTodayHeader(){
-    try{
-      var d = new Date();
-      var s = new Intl.DateTimeFormat('ru-RU', {weekday:'long', day:'numeric', month:'long'}).format(d);
-      return s.charAt(0).toUpperCase() + s.slice(1);
-    }catch(e){ return formatRu(todayStr()); }
-  }
+.badge {
+  font-size: 10px; font-weight: 600; white-space: nowrap;
+  padding: 4px 9px; border-radius: 99px; flex-shrink: 0;
+}
+.badge-active { background: var(--emerald-wash); color: var(--emerald); border: 1px solid rgba(46,204,113,0.2); }
+.badge-upcoming { background: var(--gold-wash); color: var(--gold); border: 1px solid rgba(212,168,83,0.2); }
+.badge-done { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--line); }
 
-  /* ============================================================
-     СОСТОЯНИЕ
-  ============================================================ */
-  function defaultState(){
-    var lessons = {};
-    for(var i = 1; i <= LESSON_COUNT; i++){
-      lessons[i] = {
-        merged:false, stage:'prep', prepRead:false, prepListen:false,
-        day:1, todayCount:0, completed:false, completedDate:null
-      };
-    }
-    return {
-      startDate: START_DATE,
-      lastCheckedDate: todayStr(),
-      onboarded:false,
-      lessons: lessons
-    };
-  }
+/* Прогресс-бар */
+.prog-bar {
+  height: 5px; border-radius: 99px;
+  background: rgba(255,255,255,0.07);
+  margin: 10px 0 12px; overflow: hidden;
+}
+body.light .prog-bar { background: rgba(0,0,0,0.07); }
+.prog-fill {
+  height: 100%; border-radius: 99px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+}
+.prog-fill.emerald { background: linear-gradient(90deg, var(--emerald2), var(--emerald)); }
 
-  function loadState(){
-    try{
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw) return defaultState();
-      var parsed = JSON.parse(raw);
-      if(!parsed || !parsed.lessons) return defaultState();
-      return parsed;
-    }catch(e){
-      return defaultState();
-    }
-  }
+/* Дни-точки */
+.day-dots { display: flex; gap: 7px; margin-bottom: 11px; }
+.day-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(255,255,255,0.10);
+  transition: background .25s ease;
+}
+body.light .day-dot { background: rgba(0,0,0,0.08); }
+.day-dot.done { background: var(--emerald2); }
+.day-dot.current {
+  background: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-wash), 0 0 8px var(--gold);
+}
 
-  function saveState(state){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
-  }
+/* Строка «Прочитал» */
+.read-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.read-info { font-size: 13px; color: var(--ink2); }
+.read-info .day-label { font-weight: 600; color: var(--ink); }
+.read-info .count-label { color: var(--emerald); font-weight: 700; font-size: 14.5px; }
 
-  var state = loadState();
+.read-actions { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
 
-  /* ============================================================
-     ЛОГИКА УРОКОВ / ОБЪЕДИНЕНИЕ
-  ============================================================ */
-  function getGroupRoot(n){
-    var r = n;
-    while(r > 1 && state.lessons[r - 1] && state.lessons[r - 1].merged){ r--; }
-    return r;
-  }
-  function getGroupLast(root){
-    var t = root;
-    while(t < LESSON_COUNT && state.lessons[t] && state.lessons[t].merged){ t++; }
-    return t;
-  }
-  function isAbsorbed(n){ return getGroupRoot(n) !== n; }
+.btn-undo {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--line);
+  color: var(--muted); transition: all .15s ease;
+}
+body.light .btn-undo { background: rgba(0,0,0,0.04); }
+.btn-undo:active { transform: scale(0.87); color: var(--gold); }
 
-  function visibleRoots(){
-    var arr = [];
-    for(var i = 1; i <= LESSON_COUNT; i++){ if(!isAbsorbed(i)) arr.push(i); }
-    return arr;
-  }
+.btn-read {
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  color: #fff; font-weight: 700; font-size: 13.5px;
+  padding: 10px 18px; border-radius: 12px;
+  box-shadow: 0 4px 14px var(--emerald-glow);
+  transition: transform .15s ease, box-shadow .15s ease;
+  position: relative; overflow: hidden;
+}
+.btn-read::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,0); transition: background .3s ease;
+}
+.btn-read:active { transform: scale(0.93); box-shadow: 0 2px 8px var(--emerald-glow); }
+.btn-read.flashing::after { background: rgba(255,255,255,0.35); }
 
-  function buildSeqMap(){
-    var map = {};
-    var idx = 0;
-    visibleRoots().forEach(function(r){ map[r] = idx; idx++; });
-    return map;
-  }
+/* Подготовительный этап */
+.prep-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.chip {
+  flex: 1; min-width: 130px;
+  padding: 10px 10px; border-radius: 12px;
+  background: var(--gold-wash); color: var(--gold);
+  font-size: 12.5px; font-weight: 600; text-align: center;
+  border: 1.5px solid transparent;
+  transition: transform .12s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.chip:active { transform: scale(0.96); }
+.chip.chip-done {
+  background: var(--emerald-wash); color: var(--emerald);
+  border-color: rgba(46,204,113,0.3);
+}
+.hint-text { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
 
-  /* ============================================================
-     ЕЖЕДНЕВНЫЙ СБРОС
-  ============================================================ */
-  function dailyReset(force){
-    var t = todayStr();
-    if(force || state.lastCheckedDate !== t){
-      Object.keys(state.lessons).forEach(function(k){
-        var l = state.lessons[k];
-        if(!l.completed){ l.todayCount = 0; }
-      });
-      state.lastCheckedDate = t;
-      saveState(state);
-    }
-  }
+/* Объединение */
+.merge-row {
+  display: flex; align-items: center; gap: 7px;
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px dashed var(--line);
+  font-size: 11.5px; color: var(--muted);
+}
+.merge-row input { accent-color: var(--emerald); width: 15px; height: 15px; }
 
-  /* ============================================================
-     ДЕЙСТВИЯ ПОЛЬЗОВАТЕЛЯ
-  ============================================================ */
-  function togglePrep(root, which){
-    var l = state.lessons[root];
-    if(!l || l.completed) return;
-    l[which] = !l[which];
-    l.stage = (l.prepRead && l.prepListen) ? 'reading' : 'prep';
-    saveState(state);
-    render();
-  }
+/* Готовый урок — компактный */
+.done-card-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.done-card-title {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13.5px; color: var(--ink2);
+}
+.done-check { font-size: 14px; color: var(--gold); }
 
-  function markRead(root, evt){
-    var l = state.lessons[root];
-    if(!l || l.completed || l.stage !== 'reading') return;
-    var required = REQUIRED[l.day];
-    l.todayCount++;
-    var leveledUp = false, finished = false, oldDay = l.day;
-    if(l.todayCount >= required){
-      if(l.day < 5){
-        l.day++; l.todayCount = 0; leveledUp = true;
-      }else{
-        l.completed = true; l.completedDate = todayStr(); l.stage = 'done'; finished = true;
-      }
-    }
-    saveState(state);
-    render();
-    if(evt){ spawnConfetti(evt.clientX, evt.clientY); }
-    if(finished){
-      showToast('🎉 Урок ' + groupTitle(root) + ' полностью завершён! Машаа Аллах!');
-    }else if(leveledUp){
-      showToast('Урок ' + groupTitle(root) + ': день ' + oldDay + ' пройден. Переходим к дню ' + l.day + ' 🌿');
-    }
-  }
+/* Группа завершённых */
+.done-group-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; cursor: pointer;
+  border-radius: var(--radius);
+}
+.done-group-header:active { opacity: 0.8; }
+.done-group-title { font-size: 14px; font-weight: 600; color: var(--ink2); }
+.done-group-chevron { font-size: 13px; color: var(--muted); transition: transform .3s ease; }
+.done-group-chevron.open { transform: rotate(180deg); }
+.done-group-body { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 14px; }
 
-  function toggleMerge(tail){
-    var l = state.lessons[tail];
-    if(!l) return;
-    l.merged = !l.merged;
-    saveSt
+/* ============================================================
+   АКТИВНЫЙ ИНДИКАТОР (пульсирующая точка)
+============================================================ */
+.active-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 0 0 var(--emerald-glow);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+@keyframes pulse-dot {
+  0%   { box-shadow: 0 0 0 0 rgba(46,204,113,0.5); }
+  70%  { box-shadow: 0 0 0 6px rgba(46,204,113,0); }
+  100% { box-shadow: 0 0 0 0 rgba(46,204,113,0); }
+}
+
+/* ============================================================
+   ВКЛАДКА СТАТИСТИКИ
+============================================================ */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-card { padding: 16px 15px; }
+.stat-icon { font-size: 22px; margin-bottom: 6px; }
+.stat-value { font-family: var(--display-font); font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1; }
+.stat-value span { font-size: 14px; font-weight: 400; color: var(--muted); }
+.stat-label { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+
+.stat-card-wide { padding: 16px 18px; }
+.stat-wide-row { display: flex; align-items: center; gap: 14px; }
+.stat-wide-icon { font-size: 28px; flex-shrink: 0; }
+.stat-wide-info {}
+.stat-wide-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.7px; }
+.stat-wide-value { font-family: var(--display-font); font-size: 18px; color: var(--ink); font-weight: 700; margin-top: 2px; }
+
+.streak-bar { margin-top: 12px; }
+.streak-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.streak-track { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.07); overflow: hidden; }
+body.light .streak-track { background: rgba(0,0,0,0.07); }
+.streak-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--emerald)); transition: width .6s ease; }
+
+/* ============================================================
+   СВАЙП-АНИМАЦИИ
+============================================================ */
+.swipe-hint-right, .swipe-hint-left {
+  position: absolute; top: 0; bottom: 0;
+  display: flex; align-items: center; padding: 0 18px;
+  font-size: 13px; font-weight: 700;
+  pointer-events: none; opacity: 0; transition: opacity .2s ease;
+  border-radius: var(--radius);
+}
+.swipe-hint-right { left: 0; background: var(--emerald-wash); color: var(--emerald); }
+.swipe-hint-left { right: 0; background: rgba(212,168,83,0.15); color: var(--gold); }
+
+/* ============================================================
+   ПЛАВАЮЩИЕ КНОПКИ
+============================================================ */
+.fab-scroll {
+  position: fixed; right: 18px; bottom: calc(80px + env(safe-area-inset-bottom));
+  z-index: 35;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  color: #fff; font-size: 20px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px var(--emerald-glow);
+  transition: transform .2s ease, opacity .3s ease;
+}
+.fab-scroll:active { transform: scale(0.88); }
+.fab-scroll.hidden-fab { opacity: 0; pointer-events: none; }
+
+.fab-reminder {
+  position: fixed; right: 18px; bottom: calc(136px + env(safe-area-inset-bottom));
+  z-index: 35;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--card); border: 1px solid var(--card-border);
+  backdrop-filter: var(--blur);
+  color: var(--gold); font-size: 19px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s ease;
+}
+.fab-reminder:active { transform: scale(0.88); }
+.fab-reminder.notif-set { color: var(--emerald); }
+
+/* ============================================================
+   ПУСТОЕ СОСТОЯНИЕ
+============================================================ */
+.empty-state {
+  text-align: center; padding: 40px 18px;
+  font-size: 13.5px; line-height: 1.6; color: var(--muted);
+}
+.empty-state .empty-icon { font-size: 36px; margin-bottom: 12px; }
+.empty-state p { margin: 6px 0 0; }
+
+/* ============================================================
+   ОВЕРЛЕИ И МОДАЛКИ
+============================================================ */
+.overlay {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+
+.sheet {
+  background: var(--bg2);
+  width: 100%; max-width: 480px;
+  border-radius: 24px 24px 0 0;
+  padding: 6px 22px calc(28px + env(safe-area-inset-bottom));
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+  max-height: 90vh; overflow-y: auto;
+}
+body.light .sheet { background: #FFF8EC; }
+
+.sheet-handle {
+  width: 36px; height: 4px; border-radius: 99px;
+  background: var(--line); margin: 10px auto 18px;
+}
+
+.sheet h2 {
+  font-family: var(--display-font); font-size: 22px;
+  color: var(--ink); text-align: center; margin: 0 0 6px;
+}
+.sheet .sheet-sub { text-align: center; color: var(--muted); font-size: 12.5px; margin-bottom: 20px; }
+
+.sheet-steps { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 11px; }
+.sheet-steps li { display: flex; gap: 11px; align-items: flex-start; font-size: 13.5px; line-height: 1.45; }
+.sheet-steps .num {
+  width: 24px; height: 24px; border-radi
